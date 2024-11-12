@@ -1,5 +1,5 @@
 在这个 Baseline 中，我们使用机器学习的LogisticRegression模型
-1. 导入模块
+I. 导入模块
 导入我们本次Baseline代码所需的模块
 
 #import 相关库
@@ -17,8 +17,8 @@ from warnings import simplefilter
 from sklearn.exceptions import ConvergenceWarning
 simplefilter("ignore", category=ConvergenceWarning)
 
-Pandas介绍
-pandas简介
+1.Pandas介绍
+1.1pandas简介
 这里借用菜鸟教程中的一段话
 Pandas 是 Python 语言的一个扩展程序库，用于数据分析。
 Pandas 是一个开放源码、BSD 许可的库，提供高性能、易于使用的数据结构和数据分析工具。
@@ -29,25 +29,30 @@ Pandas 可以对各种数据进行运算操作，比如归并、再成形、选�
 Pandas 广泛应用在学术、金融、统计学等各个数据分析领域。
 在本次学习中我们将使用pandas来完成训练集，测试集的读入，同时完成数据的解析，涉及的知识点较少，如果你对这部分内容有更深的兴趣，可以进一步访问同样由Datawhale产出的pandas优秀教程joyrl-pandas
 http://joyfulpandas.datawhale.club/Home.html
-pandas安装
+
+1.2pandas安装
 pandas 库可以简单地通过 pip 命令或 conda 命令安装
 # 使用 pip 安装
 pip install pandas
 # 使用 conda 安装
 conda install pandas
-scikit-learn模块介绍
-sklearn 简介
+
+2.scikit-learn模块介绍
+2.1sklearn 简介
 Sklearn 是一个机器学习、深度学习中非常常用的 Python 第三方库，内部封装了多种机器学习算法与数据处理算法，提供了包括数据清洗、数据预处理、建模调参、数据验证、数据可视化的全流程功能，是入门机器学习的必备工具。
 通过使用 sklearn，你可以便捷地完成机器学习的整体流程，尝试使用多种模型完成训练与预测任务，而不需要再手动实现各种机器学习算法。本次基础 Baseline 的各个部分都将使用 sklearn 封装的算法来完成，我们在此处简单介绍 sklearn 的安装、使用与本次用到的相关算法与原理。如想要进一步学习 sklearn 库的用法，可以参见该社区：https://scikit-learn.org.cn/。
-sklearn 安装
+
+2.2sklearn 安装
 Sklearn 库可以简单地通过 pip 命令或 conda 命令安装即可，但要注意，安装名称是 scikit-learn：
 # 使用 pip 安装
 pip install scikit-learn
 # 使用 conda 安装
 conda install scikit-learn
-特征提取
+
+3.特征提取
 特征提取是机器学习任务中的一个重要步骤。我们将训练数据的每一个维度称为一个特征，例如，如果我们想要基于二手车的品牌、价格、行驶里程数三个变量来预测二手车的价格，则品牌、价格、行驶里程数为该任务的三个特征。所谓特征提取，即从训练数据的特征集合中创建新的特征子集的过程。提取出来的特征子集特征数一般少于等于原特征数，但能够更好地表征训练数据的情况，使用提取出的特征子集能够取得更好的预测效果。对于 NLP、CV 任务，我们通常需要将文本、图像特征提取为计算机可以处理的数值向量特征。我们一般可以使用 sklearn 库中的 feature_extraction 包来实现文本与图片的特征提取。
 在 NLP 任务中，特征提取一般需要将自然语言文本转化为数值向量表示，常见的方法包括基于 TF-IDF（词频-逆文档频率）提取或基于 BOW（词袋模型）提取等，两种方法均在 sklearn.feature_extraction 包中有所实现。
+
 3.1 基于 TF-IDF 提取
 TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，其中，TF 指 term frequence，即词频，指某个词在文章中出现次数与文章总词数的比值；IDF 指 inverse document frequence，即逆文档频率，指包含某个词的文档数占语料库总文档数的比例。例如，假设语料库为 {"今天 天气 很好","今天 心情 很 不好", "明天 天气 不好"}，每一个句子为一个文档，则“今天”的 TF 和 IDF 分别为：
 
@@ -67,6 +72,7 @@ vector = TfidfVectorizer().fit(data["text"])
 
 # 拟合之后，调用 transform 方法即可得到提取后的特征数据
 train_vector = vector.transform()
+
 3.2 基于 BOW 
 BOW（Bag of Words）是一种常用的文本表示方法，其基本思想是假定对于一个文本，忽略其词序和语法、句法，仅仅将其看做是一些词汇的集合，而文本中的每个词汇都是独立的。简单说就是讲每篇文档都看成一个袋子（因为里面装的都是词汇，所以称为词袋，Bag of words即因此而来），然后看这个袋子里装的都是些什么词汇，将其分类。具体而言，词袋模型表示一个文本，首先会维护一个词库，词库里维护了每一个词到一个数值向量的映射关系。例如，最简单的映射关系是独热编码，假设词库里一共有四个词，今天、天气、很、不好，那么独热编码会将四个词分别编码为：
 今天——（1,0,0,0）
@@ -88,6 +94,7 @@ vector = CountVectorizer().fit(data["text"])
 
 # 拟合之后，调用 transform 方法即可得到提取后的特征数据
 train_vector = vector.transform()
+
 3.3 停用词
 停用词(Stop Words)是自然语言处理领域的一个重要工具，通常被用来提升文本特征的质量，或者降低文本特征的维度。
 当我们在使用TF-IDF或者BOW模型来表示文本时，总会遇到一些问题。
@@ -106,7 +113,8 @@ stop.txt文件链接：链接: https://pan.baidu.com/s/1mQ50_gsKZHWERHzfiDnheg?p
 stops =[i.strip() for i in open(r'stop.txt',encoding='utf-8').readlines()] 
 读取这个文件后在使用CountVectorizer()方法时指定stop_words参数为stops就可以
 vector = CountVectorizer(stop_words=stops).fit(train['text'])
-划分数据集
+
+4.划分数据集
 在机器学习任务中，我们一般会有三个数据集：训练集、验证集、预测集。训练集为我们训练模型的拟合数据，是我们前期提供给模型的输入；验证集一般是我们自行划分出来验证模型效果以选取最优超参组合的数据集；测试集是最后检验模型效果的数据集。例如在本期竞赛任务中，比赛方提供的 test.csv 就是预测集，我们最终的任务是建立一个模型在预测集上实现较准确的预测。但是预测集一般会限制预测次数，例如在本期比赛中，每人每天仅能提交三次，但是我们知道，机器学习模型一般有很多超参数，为了选取最优的超参组合，我们一般需要多次对模型进行验证，即提供一部分数据让已训练好的模型进行预测，来找到预测准确度最高的模型。
 因此，我们一般会将比赛方提供的训练集也就是 train.csv 进行划分，划分为训练集和验证集。我们会使用划分出来的训练集进行模型的拟合和训练，而使用划分出来的验证集验证不同参数及不同模型的效果，来找到最优的模型及参数再在比赛方提供的预测集上预测最终结果。
 划分数据集的方法有很多，基本原则是同分布采样。即我们划分出来的验证集和训练集应当是同分布的，以免验证不准确（事实上，最终的预测集也应当和训练集、验证集同分布）。此处我们介绍交叉验证，即对于一个样本总量为 T 的数据集，我们一般随机采样 10%~20%（也就是 0.1T~0.2T 的样本数）作为验证集，而取其他的数据为训练集。如要了解更多的划分方法，可查阅该博客：https://blog.csdn.net/hcxddd/article/details/119698879。我们可以使用 sklearn.model_selection 中的 train_test_split 函数便捷实现数据集的划分：
@@ -117,7 +125,8 @@ from sklearn.model_selection import train_test_split
 trian_data, eval_data = train_test_split(data, test_size = 0.2)
 # 参数 data 为总数据集，可以是 DataFrame 类型
 # 参数 test_size 为划分验证集的占比，此处选择0.2，即划分20%样本作为验证集 
-选择机器学习模型
+
+5.选择机器学习模型
 我们可以选择多种机器学习模型来拟合训练数据，不同的业务场景、不同的训练数据往往最优的模型也不同。常见的模型包括线性模型、逻辑回归、决策树、支持向量机、集成模型、神经网络等。想要深入学习各种机器学习模型的同学，推荐学习《西瓜书》或《统计学习方法》。
 Sklearn 封装了多种机器学习模型，常见的模型都可以在 sklearn 中找到，sklearn 根据模型的类别组织在不同的包中，此处介绍几个常用包：
   - sklearn.linear_model：线性模型，如线性回归、逻辑回归、岭回归等
@@ -143,8 +152,7 @@ model.fit(train_vector, train['label'])
 test['label'] = model.predict(test_vector)
 事实上，sklearn 提供的多种机器学习模型都封装成了类似的类，绝大部分使用方法均和上述一致，即先实例化一个模型对象，再使用 fit 函数拟合训练数据，最后使用 predict 函数预测测试数据即可。
 
-#2. 数据探索
-2. 数据探索
+II. 数据探索
 数据探索性分析，是通过了解数据集，了解变量间的相互关系以及变量与预测值之间的关系，对已有数据在尽量少的先验假设下通过作图、制表、方程拟合、计算特征量等手段探索数据的结构和规律的一种数据分析方法，从而帮助我们后期更好地进行特征工程和建立模型，是机器学习中十分重要的一步。
 本次baseline实践中我们使用pandas来读取数据以及数据探索
 使用pandas读取数据
@@ -177,7 +185,8 @@ label
 1    2921
 Name: count, dtype: int64
 观察输出发现01标签分布的比较均匀，也就是说我们不必担心数据分布不均而发生过拟合，保证模型的泛化能力
-3. 数据清洗
+
+III. 数据清洗
 数据和特征决定了机器学习的上限，而模型和算法只是逼近这个上限而已。俗话说：garbage in, garbage out。分析完数据后，特征工程前，必不可少的步骤是对数据清洗。
 数据清洗的作用是利用有关技术如数理统计、数据挖掘或预定义的清理规则将脏数据转化为满足数据质量要求的数据。主要包括缺失值处理、异常值处理、数据分桶、特征归一化/标准化等流程。
 同时由于表格中存在较多列，我们将这些列的重要内容组合在一起生成一个新的列方便训练
@@ -187,7 +196,8 @@ train['text'] = train['title'].fillna('') + ' ' +  train['author'].fillna('') + 
 test['text'] = test['title'].fillna('') + ' ' +  test['author'].fillna('') + ' ' + test['abstract'].fillna('')
 
 在实践学习中有些同学反映对于fillna('')方法存在疑惑，pandas中fillna()方法，能够使用指定的方法填充NA/NaN值。如果数据集中某行缺少title author abstract中的内容，我们需要利用fillna()来保证不会出现报错。
-4. 特征工程
+
+IV. 特征工程
 特征工程指的是把原始数据转变为模型训练数据的过程，目的是获取更好的训练数据特征。特征工程能使得模型的性能得到提升，有时甚至在简单的模型上也能取得不错的效果。
 [Image]
 这里我们选择使用BOW将文本转换为向量表示
@@ -195,7 +205,8 @@ test['text'] = test['title'].fillna('') + ' ' +  test['author'].fillna('') + ' '
 vector = CountVectorizer().fit(train['text'])
 train_vector = vector.transform(train['text'])
 test_vector = vector.transform(test['text'])
-5. 模型训练与验证
+
+V. 模型训练与验证
 特征工程也好，数据清洗也罢，都是为最终的模型来服务的，模型的建立和调参决定了最终的结果。模型的选择决定结果的上限， 如何更好的去达到模型上限取决于模型的调参。
 建模的过程需要我们对常见的线性模型、非线性模型有基础的了解。模型构建完成后，需要掌握一定的模型性能验证的方法和技巧
 
@@ -204,7 +215,8 @@ model = LogisticRegression()
 
 # 开始训练，这里可以考虑修改默认的batch_size与epoch来取得更好的效果
 model.fit(train_vector, train['label'])
-6. 结果输出
+
+VI. 结果输出
 提交结果需要符合提交样例结果
 # 利用模型对测试集label标签进行预测
 test['label'] = model.predict(test_vector)
